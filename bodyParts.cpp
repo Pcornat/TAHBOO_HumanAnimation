@@ -28,3 +28,26 @@ void human::BodyParts::setPosition(const double (&position)[3]) {
 
 	BodyParts::position = glm::dvec3(position[0], position[1], position[2]);
 }
+
+int32_t human::BodyParts::getId() const {
+	return id;
+}
+
+nlohmann::json human::to_json(nlohmann::json &j, const human::BodyParts &body) {
+	j[body.getName()] = {
+			{"rotation", {
+								 body.getRotation().x,
+								 body.getRotation().y,
+								 body.getRotation().z,
+								 body.getRotation().w
+						 }
+			},
+			{"position", {
+								 body.getPosition().x,
+								 body.getPosition().y,
+								 body.getPosition().z
+						 }},
+			{"id",       body.getId()}
+	};
+	return j;
+}

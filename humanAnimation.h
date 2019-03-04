@@ -14,8 +14,6 @@
 
 #include <bodyParts.h>
 
-extern "C" {
-
 namespace human {
 
 	/**
@@ -47,6 +45,8 @@ namespace human {
 
 		const std::unique_ptr<DTrackSDK> &getDtrack() const;
 
+		const std::vector<BodyParts> &getBodyParts() const;
+
 		void setNumBodyParts(size_t num);
 
 		void pushBodyParts(const DTrack_Body_Type_d *body);
@@ -57,9 +57,9 @@ namespace human {
 
 	};
 
-	static Human instance;
-}
+	static std::string to_json();
 
+	static Human instance;
 }
 
 #endif

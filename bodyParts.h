@@ -7,12 +7,11 @@
 
 #include "for_windows.h"
 
+#include <json.hpp>
 #include <string>
 #include <array>
 #include <glm/ext/quaternion_double.hpp>
 
-
-extern "C" {
 
 namespace human {
 
@@ -35,6 +34,8 @@ namespace human {
 
 		const glm::dquat &getRotation() const;
 
+		int32_t getId() const;
+
 		const glm::dvec3 &getPosition() const;
 
 		void setPosition(const double (&position)[3]);
@@ -51,7 +52,8 @@ namespace human {
 		void setRotation(const double (&rotation)[9]);
 	};
 
-}
+	nlohmann::json to_json(nlohmann::json &j, const BodyParts &body);
+
 }
 
 

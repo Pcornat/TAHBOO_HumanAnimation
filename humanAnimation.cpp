@@ -68,3 +68,15 @@ void human::Human::pushBodyParts(const DTrack_Body_Type_d *body) {
 	bodyPart.setRotation(body->rot);
 	bodyPart.setPosition(body->loc);
 }
+
+const std::vector<human::BodyParts> &human::Human::getBodyParts() const {
+	return bodyParts;
+}
+
+std::string human::to_json() {
+	nlohmann::json j;
+	for (const auto &bodyPart : human::instance.getBodyParts()) {
+		j["human"] += human::to_json(j, bodyPart);
+	}
+	return j.dump();
+}
