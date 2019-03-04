@@ -33,15 +33,31 @@ namespace human {
 
 		virtual ~Human() noexcept = default;
 
+		/**
+		 * Mettre à jour les données dans DTrack.
+		 * @return
+		 */
 		static int update();
 
+		/**
+		 * Initialisation d'un objet statique Human.
+		 * @return
+		 */
 		static int start();
+
+		const std::unique_ptr<DTrackSDK> &getDtrack() const;
+
+		void setNumBodyParts(size_t num);
+
+		void pushBodyParts(const DTrack_Body_Type_d *body);
 
 		Human &operator=(Human &&h) noexcept;
 
 		Human &operator=(const Human &h) = delete;
 
 	};
+
+	static Human instance;
 }
 
 }

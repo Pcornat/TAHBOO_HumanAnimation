@@ -7,11 +7,9 @@
 
 #include "for_windows.h"
 
-#define GLM_EXT_INCLUDED
-
 #include <string>
 #include <array>
-#include <glm/ext/quaternion_float.hpp>
+#include <glm/ext/quaternion_double.hpp>
 
 
 extern "C" {
@@ -26,12 +24,31 @@ namespace human {
 	class BodyParts {
 	protected:
 		std::string name;
-		std::array<float, 3> position;
-		std::array<float, 3> scale;
+		glm::dvec3 position;
+		//glm::dvec3 scale;
 		//rotation : quaternion. Donc utilisation de GLM.
-		glm::quat rotation; //On devra convertir de la matrice 3x3 de DTrack (un simple float[3][3])vers le quaternion.
+		glm::dquat rotation;
+		int32_t id;
 
 	public:
+		const std::string &getName() const;
+
+		const glm::dquat &getRotation() const;
+
+		const glm::dvec3 &getPosition() const;
+
+		void setPosition(const double (&position)[3]);
+
+		/*const glm::dvec3 &getScale() const;
+
+		void setScale(const double (&scale)[3]);*/
+
+		/**
+		 * Set the rotation matrix of the body parts.
+		 * Converts it to a quaternion.
+		 * @param rotation rotation matrix in a one-dimensional array
+		 */
+		void setRotation(const double (&rotation)[9]);
 	};
 
 }
