@@ -57,7 +57,7 @@ namespace human {
 
 	};
 
-	static std::string to_json();
+	static UNITY_INTERFACE_EXPORT std::string to_json();
 
 	static Human instance;
 }
