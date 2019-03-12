@@ -7,9 +7,7 @@
 
 #include "for_windows.h"
 
-#include <json.hpp>
 #include <string>
-#include <array>
 #include <glm/ext/quaternion_double.hpp>
 
 
@@ -24,7 +22,6 @@ namespace human {
 	protected:
 		std::string name;
 		glm::dvec3 position;
-		//glm::dvec3 scale;
 		//rotation : quaternion. Donc utilisation de GLM.
 		glm::dquat rotation;
 		int32_t id;
@@ -40,10 +37,6 @@ namespace human {
 
 		void setPosition(const double (&position)[3]);
 
-		/*const glm::dvec3 &getScale() const;
-
-		void setScale(const double (&scale)[3]);*/
-
 		/**
 		 * Set the rotation matrix of the body parts.
 		 * Converts it to a quaternion.
@@ -51,8 +44,6 @@ namespace human {
 		 */
 		void setRotation(const double (&rotation)[9]);
 	};
-
-	nlohmann::json to_json(nlohmann::json &j, const BodyParts &body);
 
 }
 
