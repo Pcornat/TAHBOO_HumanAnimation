@@ -42,6 +42,12 @@ namespace human {
 		const glm::dvec3 &getPosition() const;
 
 		/**
+		 * Sets the id of the body part.
+		 * \param id
+		 */
+		void setId(int32_t id);
+
+		/**
 		 * Set the position vector of the body part.
 		 * Store it inside a glm::dvec3
 		 * \param position

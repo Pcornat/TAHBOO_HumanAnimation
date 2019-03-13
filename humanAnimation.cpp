@@ -56,6 +56,8 @@ void human::Human::setNumBodyParts(size_t num) {
 
 void human::Human::pushBodyParts(const DTrack_Body_Type_d *body) {
 	auto &bodyPart = this->bodyParts.at(static_cast<size_t >(body->id));
+
+	bodyPart.setId(body->id);
 	bodyPart.setRotation(body->rot);
 	bodyPart.setPosition(body->loc);
 }

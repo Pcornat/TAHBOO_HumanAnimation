@@ -32,3 +32,7 @@ void human::BodyParts::setPosition(const double (&position)[3]) {
 int32_t human::BodyParts::getId() const {
 	return id;
 }
+
+void human::BodyParts::setId(int32_t id) {
+	BodyParts::id = id;
+}
