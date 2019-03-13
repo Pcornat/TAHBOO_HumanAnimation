@@ -11,27 +11,7 @@
 std::unique_ptr<DTrackSDK> human::Human::dtrack = nullptr;
 bool human::Human::dtrackCreated = false;
 
-int32_t human::Human::update(human::Human *ptr) {
-	human::Human &ref = *ptr;
-	auto &dtrack = human::Human::dtrack;
-
-	if (dtrack->receive()) {
-		ref.setNumBodyParts(static_cast<size_t>(dtrack->getNumBody()));
-		for (int32_t i = 0; i < dtrack->getNumBody(); ++i) {
-			auto bodyPtr = dtrack->getBody(i);
-			if (bodyPtr == nullptr)
-				throw std::out_of_range("nullptr access");
-
-			if (bodyPtr->quality == -1)
-				continue;
-
-			ref.pushBodyParts(bodyPtr);
-		}
-	}
-	return EXIT_SUCCESS;
-}
-
-human::Human::Human(const std::string &filename) throw(std::invalid_argument) {
+human::Human::Human(const std::string &filename) noexcept(false) {
 	using json = nlohmann::json;
 	/*
 	 * Vérifier le nom du fichier, (.json)
@@ -70,10 +50,6 @@ human::Human &human::Human::operator=(human::Human &&h) noexcept {
 	return *this;
 }
 
-/*const std::shared_ptr<DTrackSDK> &human::Human::getDtrack() const {
-	return dtrack;
-}*/
-
 void human::Human::setNumBodyParts(size_t num) {
 	this->bodyParts.resize(num);
 }
@@ -89,7 +65,7 @@ const std::vector<human::BodyParts> &human::Human::getBodyParts() const {
 }
 
 human::Human *human::Human::Human_create(const char *filename) {
-	auto ptr = new Human(std::string(filename));
+	auto *ptr = new Human(std::string(filename));
 
 	return ptr;
 }
@@ -100,4 +76,47 @@ void human::Human::Human_destroy(human::Human *ptr) {
 
 void human::Human::DTrack_destroy() {
 	human::Human::dtrack.reset(nullptr);
+}
+
+int32_t human::Human::update(human::Human *ptr) noexcept(false) {
+	human::Human &ref = *ptr;
+	auto &dtrack = human::Human::dtrack;
+
+	if (dtrack->receive()) {
+		ref.setNumBodyParts(static_cast<size_t>(dtrack->getNumBody()));
+		for (int32_t i = 0; i < dtrack->getNumBody(); ++i) {
+			auto bodyPtr = dtrack->getBody(i);
+			if (bodyPtr == nullptr)
+				throw std::out_of_range("nullptr access");
+
+			if (bodyPtr->quality == -1)
+				continue;
+
+			ref.pushBodyParts(bodyPtr);
+		}
+	}
+	return EXIT_SUCCESS;
+}
+
+double *human::Human::getBodyPartPos(const human::Human *ptr, size_t id) {
+	auto *pos = new double[3];
+	auto &vecRef = ptr->getBodyParts().at(id).getPosition();
+
+	pos[0] = vecRef.x;
+	pos[1] = vecRef.y;
+	pos[2] = vecRef.z;
+
+	return pos;
+}
+
+double *human::Human::getBodyPartQuat(const human::Human *ptr, size_t id) {
+	auto *rot = new double[4];
+	auto &quatRef = ptr->getBodyParts().at(id).getRotation();
+
+	rot[0] = quatRef.x;
+	rot[1] = quatRef.y;
+	rot[2] = quatRef.z;
+	rot[3] = quatRef.w;
+
+	return rot;
 }

@@ -14,16 +14,22 @@
 namespace human {
 
 	/**
-	 * @class BodyParts
+	 * \class BodyParts
+	 * \brief Classe utilisé en interne uniquement de la library.
 	 *
-	 * Classe utilisé en interne uniquement de la library.
+	 * \authors Florent Denef, Kévin Fornasiero
 	 */
 	class BodyParts {
 	protected:
 		std::string name;
+
+		///Store the position of the body part.
 		glm::dvec3 position;
-		//rotation : quaternion. Donc utilisation de GLM.
+
+		///Store the rotation of the body part (quaternion format because it is Unity's format)
 		glm::dquat rotation;
+
+		///ART ID of the body part.
 		int32_t id;
 
 	public:
@@ -35,12 +41,17 @@ namespace human {
 
 		const glm::dvec3 &getPosition() const;
 
+		/**
+		 * Set the position vector of the body part.
+		 * Store it inside a glm::dvec3
+		 * \param position
+		 */
 		void setPosition(const double (&position)[3]);
 
 		/**
-		 * Set the rotation matrix of the body parts.
+		 * Set the rotation matrix of the body part.
 		 * Converts it to a quaternion.
-		 * @param rotation rotation matrix in a one-dimensional array
+		 * \param rotation rotation matrix in a one-dimensional array
 		 */
 		void setRotation(const double (&rotation)[9]);
 	};
