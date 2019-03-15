@@ -2,18 +2,20 @@
   "dtrack": {
 	"port": 5000
   },
-  "body_parts": {
-	"head": 3,
-	"foot_l": 7,
-	"foot_r": 8,
-	"calf_r": 9,
-	"hand_l": 10,
-	"lowerarm_l": 11,
-	"calf_l": 12,
-	"lowerarm_r": 13,
-	"clavicle_l": 14,
-	"clavicle_r": 15,
-	"hand_r": 16,
-	"pelvis": 17
-  }
+  "human_models": [
+	{
+	  "head": 3,
+	  "foot_l": 7,
+	  "foot_r": 8,
+	  "calf_r": 9,
+	  "hand_l": 10,
+	  "lowerarm_l": 11,
+	  "calf_l": 12,
+	  "lowerarm_r": 13,
+	  "clavicle_l": 14,
+	  "clavicle_r": 15,
+	  "hand_r": 16,
+	  "pelvis": 17
+	}
+  ]
 }

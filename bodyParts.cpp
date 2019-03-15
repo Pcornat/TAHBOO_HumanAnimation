@@ -10,7 +10,7 @@ const glm::dquat &human::BodyParts::getRotation() const {
 }
 
 void human::BodyParts::setRotation(const double (&rotation)[9]) {
-	//DTrack a ses matrices de rotation sous forme FORTRAN, column-major. Voilà ce que cela donne.
+	//DTrack a ses matrices de rotation sous forme FORTRAN, column-major (column-wise comme dit dans la doc d'ART). Voilà ce que cela donne.
 	BodyParts::rotation = glm::quat_cast(glm::dmat3(rotation[0], rotation[3], rotation[6],
 													rotation[1], rotation[4], rotation[7],
 													rotation[2], rotation[5], rotation[8]));
