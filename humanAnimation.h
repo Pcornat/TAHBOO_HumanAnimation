@@ -85,13 +85,13 @@ namespace human {
 
 		/**
 		 * Mettre à jour les données dans DTrack.
-		 * @return
+		 * \return
 		 */
 		static int32_t UNITY_INTERFACE_EXPORT update(human::Human *ptr) noexcept(false);
 
 		/**
 		 * Création d'un objet Human.
-		 * @return
+		 * \return
 		 */
 		static Human *UNITY_INTERFACE_EXPORT Human_create(const char *filename);
 
@@ -104,6 +104,14 @@ namespace human {
 		 * Destruction de l'instance unique de DTrack.
 		 */
 		static void UNITY_INTERFACE_EXPORT DTrack_destroy();
+
+		/**
+		 * Permet de connaître le nombre de BodyParts présent.
+		 * Le vecteur est remplis après le premier receive (en théorie)
+		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
+		 * \return Le nombre de BodyParts.
+		 */
+		static size_t UNITY_INTERFACE_EXPORT getNumBodyParts(const human::Human *ptr);
 
 		/**
 		 * Obtenir la position d'un BodyPart.

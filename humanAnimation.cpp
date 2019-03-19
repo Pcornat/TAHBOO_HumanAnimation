@@ -122,3 +122,7 @@ double *human::Human::getBodyPartQuat(const human::Human *ptr, size_t id) {
 
 	return rot;
 }
+
+size_t human::Human::getNumBodyParts(const human::Human *ptr) {
+	return ptr->getBodyParts().size();
+}

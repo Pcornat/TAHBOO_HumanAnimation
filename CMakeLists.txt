@@ -99,14 +99,9 @@ set(TESTS_FILES
 add_subdirectory(json)
 add_subdirectory(catch2)
 
-add_library(DTrackSDK SHARED ${DTRACK_FILES})
-target_compile_options(DTrackSDK ${COMPILER_OPTIONS})
-target_link_libraries(DTrackSDK ${LINKER_FLAGS})
-
-add_library(humanAnimation SHARED ${SRC_FILES})
-add_dependencies(humanAnimation DTrackSDK)
+add_library(humanAnimation SHARED ${SRC_FILES} ${DTRACK_FILES})
 target_compile_options(humanAnimation ${COMPILER_OPTIONS} ${OpenMP_CXX_FLAGS})
-target_link_libraries(humanAnimation ${LINKER_FLAGS} ${OpenMP_CXX_LIBRARIES} ${OpenCV_LIBS} ${PROJECT_BINARY_DIR}/libDTrackSDK.so nlohmann_json::nlohmann_json)
+target_link_libraries(humanAnimation ${LINKER_FLAGS} ${OpenMP_CXX_LIBRARIES} ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
 
 add_executable(humanAnimationTests ${TESTS_FILES})
 add_dependencies(humanAnimationTests humanAnimation)
