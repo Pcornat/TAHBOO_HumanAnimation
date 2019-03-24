@@ -106,4 +106,4 @@ target_link_libraries(humanAnimation ${LINKER_FLAGS} ${OpenMP_CXX_LIBRARIES} ${O
 add_executable(humanAnimationTests ${TESTS_FILES})
 add_dependencies(humanAnimationTests humanAnimation)
 target_compile_options(humanAnimationTests ${COMPILER_OPTIONS})
-target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/libhumanAnimation.so ${PROJECT_BINARY_DIR}/libDTrackSDK.so)
+target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/libhumanAnimation.so)
