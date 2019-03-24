@@ -48,6 +48,11 @@ namespace human {
 	class Human {
 	protected:
 		std::vector<BodyParts> bodyParts;
+		std::string filename;
+
+		/// Unused for now
+		uint32_t humanID;
+
 		static std::unique_ptr<DTrackSDK> dtrack;
 		static bool dtrackCreated;
 
@@ -60,8 +65,6 @@ namespace human {
 		explicit Human(const std::string &filename) noexcept(false);
 
 		virtual ~Human() noexcept = default;
-
-		/*const std::shared_ptr<DTrackSDK> &getDtrack() const;*/
 
 		const std::vector<BodyParts> &getBodyParts() const;
 
@@ -106,12 +109,18 @@ namespace human {
 		static void UNITY_INTERFACE_EXPORT DTrack_destroy();
 
 		/**
-		 * Permet de connaître le nombre de BodyParts présent.
-		 * Le vecteur est remplis après le premier receive (en théorie)
+		 * Permet de connaître le nombre de BodyParts présent à partir du fichier JSON (allocation urile en C#).
 		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
 		 * \return Le nombre de BodyParts.
 		 */
 		static size_t UNITY_INTERFACE_EXPORT getNumBodyParts(const human::Human *ptr);
+
+		/**
+		 * Ça fonctionne uniquement pour le nombre de partie que l'on a ainsi que la configuration présente (les IDs).
+		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
+		 * \return Les id des BodyParts
+		 */
+		static int *UNITY_INTERFACE_EXPORT getIds(const human::Human *ptr);
 
 		/**
 		 * Obtenir la position d'un BodyPart.
@@ -128,6 +137,13 @@ namespace human {
 		 * @return Tableau de double contenant le quaternion (x, y, z, w)
 		 */
 		static double *UNITY_INTERFACE_EXPORT getBodyPartQuat(const human::Human *ptr, size_t id);
+
+		/**
+		 * Utile seulement pour les tests unitaires. Inutilisables en C#
+		 * \param ptr
+		 * \return
+		 */
+		static const std::unique_ptr<DTrackSDK> &getDTrack(human::Human *ptr);
 
 	};
 

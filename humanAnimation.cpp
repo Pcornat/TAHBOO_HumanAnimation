@@ -39,12 +39,14 @@ human::Human::Human(const std::string &filename) noexcept(false) {
 #endif
 		}
 	}
+	this->filename = std::move(filename);
 }
 
 human::Human &human::Human::operator=(human::Human &&h) noexcept {
 
 	if (&h != this) {
 		this->bodyParts = std::move(h.bodyParts);
+		this->filename = std::move(h.filename);
 	}
 
 	return *this;
@@ -124,5 +126,42 @@ double *human::Human::getBodyPartQuat(const human::Human *ptr, size_t id) {
 }
 
 size_t human::Human::getNumBodyParts(const human::Human *ptr) {
-	return ptr->getBodyParts().size();
+	using json = nlohmann::json;
+	std::ifstream fileStr(ptr->filename);
+
+	json file = json::parse(fileStr);
+	fileStr.close();
+
+	return file.at("human_models").at(0).size();
+}
+
+int *human::Human::getIds(const human::Human *ptr) {
+	using json = nlohmann::json;
+	int *ids = nullptr;
+	std::ifstream fileStr(ptr->filename);
+	json file = json::parse(fileStr);
+	fileStr.close();
+
+	auto &object = file.at("human_models").at(0/* here the humanID in the future*/);
+
+	ids = new int[object.size()];
+
+	ids[0] = object.at("head").get<int>();
+	ids[1] = object.at("foot_l").get<int>();
+	ids[2] = object.at("foot_r").get<int>();
+	ids[3] = object.at("calf_r").get<int>();
+	ids[4] = object.at("hand_l").get<int>();
+	ids[5] = object.at("lowerarm_l").get<int>();
+	ids[6] = object.at("calf_l").get<int>();
+	ids[7] = object.at("lowerarm_r").get<int>();
+	ids[8] = object.at("clavicle_l").get<int>();
+	ids[9] = object.at("clavicle_r").get<int>();
+	ids[10] = object.at("hand_r").get<int>();
+	ids[11] = object.at("pelvis").get<int>();
+
+	return ids;
+}
+
+const std::unique_ptr<DTrackSDK> &human::Human::getDTrack(human::Human *ptr) {
+	return ptr->dtrack;
 }
