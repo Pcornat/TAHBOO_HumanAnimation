@@ -98,8 +98,10 @@ int32_t human::Human::update(human::Human *ptr) noexcept(false) {
 
 			ref.pushBodyParts(bodyPtr);
 		}
-	}
-	return EXIT_SUCCESS;
+		return EXIT_SUCCESS;
+	} else
+		return EXIT_FAILURE;
+
 }
 
 double *human::Human::getBodyPartPos(const human::Human *ptr, size_t id) {
