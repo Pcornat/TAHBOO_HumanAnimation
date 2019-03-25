@@ -10,13 +10,7 @@ set(CATCH_INSTALL_DOCS OFF CACHE BOOL "")
 set(CATCH_INSTALL_HELPERS OFF CACHE BOOL "")
 set(BUILD_TESTING OFF CACHE BOOL "")
 
-find_package(OpenMP REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(glm REQUIRED)
-
 include_directories(.)
-include_directories(${OpenCV_INCLUDE_DIRS})
-include_directories(${GLM_INCLUDE_DIRS})
 include_directories(./DTrack_src/include)
 include_directories(./json/single_include/nlohmann)
 include_directories(./catch2/single_include)
@@ -26,6 +20,13 @@ set(LINKER_FLAGS
 
 # Partie Linux
 if (${CMAKE_HOST_UNIX})
+
+	find_package(OpenMP REQUIRED)
+	find_package(OpenCV REQUIRED)
+	find_package(glm REQUIRED)
+
+	include_directories(${OpenCV_INCLUDE_DIRS})
+	include_directories(${GLM_INCLUDE_DIRS})
 
 	# Pour compilateur Intel.
 	if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
@@ -58,11 +59,16 @@ if (${CMAKE_HOST_UNIX})
 
 elseif (${CMAKE_HOST_WIN32}) # Partie pour Windows
 
+	include_directories(./glm)
+
 	# Compilateur Microsoft
 	if (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 		# Tu te débrouilles.
 		set(COMPILER_OPTIONS
 				PRIVATE /Wall)
+
+		set(LINKER_FLAGS
+				)
 
 	elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 		set(COMPILER_OPTIONS
@@ -71,8 +77,6 @@ elseif (${CMAKE_HOST_WIN32}) # Partie pour Windows
 				-Wextra
 				-march=native)
 
-		set(LINKER_FLAGS
-				${LINKER_FLAGS})
 	endif ()
 endif ()
 
@@ -102,10 +106,29 @@ add_subdirectory(json)
 add_subdirectory(catch2)
 
 add_library(humanAnimation SHARED ${SRC_FILES} ${DTRACK_FILES})
-target_compile_options(humanAnimation ${COMPILER_OPTIONS} ${OpenMP_CXX_FLAGS})
-target_link_libraries(humanAnimation ${LINKER_FLAGS} ${OpenMP_CXX_LIBRARIES} ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
+
+if (${CMAKE_HOST_UNIX})
+
+	target_compile_options(humanAnimation ${COMPILER_OPTIONS} ${OpenMP_CXX_FLAGS})
+	target_link_libraries(humanAnimation ${LINKER_FLAGS} ${OpenMP_CXX_LIBRARIES} ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
+
+elseif (${CMAKE_HOST_WIN32})
+
+	target_compile_options(humanAnimation ${COMPILER_OPTIONS} /openmp)
+	target_link_libraries(humanAnimation ${LINKER_FLAGS} /openmp ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
+
+endif ()
 
 add_executable(humanAnimationTests ${TESTS_FILES})
 add_dependencies(humanAnimationTests humanAnimation)
 target_compile_options(humanAnimationTests ${COMPILER_OPTIONS})
-target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/libhumanAnimation.so)
+
+if (${CMAKE_HOST_UNIX})
+
+	target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/libhumanAnimation.so)
+
+elseif (${CMAKE_HOST_WIN32})
+
+	target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/libhumanAnimation.dll)
+
+endif ()
