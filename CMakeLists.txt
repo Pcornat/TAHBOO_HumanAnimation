@@ -17,7 +17,7 @@ find_package(glm REQUIRED)
 include_directories(.)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
-include_directories(../DTrack_src/include)
+include_directories(./DTrack_src/include)
 include_directories(./json/single_include/nlohmann)
 include_directories(./catch2/single_include)
 
@@ -83,15 +83,15 @@ set(SRC_FILES
 		for_windows.h)
 
 set(DTRACK_FILES
-		../DTrack_src/include/DTrackDataTypes.h
-		../DTrack_src/include/DTrackNet.h
-		../DTrack_src/include/DTrackParse.hpp
-		../DTrack_src/include/DTrackParser.hpp
-		../DTrack_src/include/DTrackSDK.hpp
-		../DTrack_src/src/DTrackNet.cpp
-		../DTrack_src/src/DTrackParse.cpp
-		../DTrack_src/src/DTrackParser.cpp
-		../DTrack_src/src/DTrackSDK.cpp)
+		./DTrack_src/include/DTrackDataTypes.h
+		./DTrack_src/include/DTrackNet.h
+		./DTrack_src/include/DTrackParse.hpp
+		./DTrack_src/include/DTrackParser.hpp
+		./DTrack_src/include/DTrackSDK.hpp
+		./DTrack_src/src/DTrackNet.cpp
+		./DTrack_src/src/DTrackParse.cpp
+		./DTrack_src/src/DTrackParser.cpp
+		./DTrack_src/src/DTrackSDK.cpp)
 
 set(TESTS_FILES
 		Tests/catch2Include.cpp Tests/mainTests.cpp)
