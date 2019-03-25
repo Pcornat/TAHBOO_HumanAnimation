@@ -13,6 +13,19 @@
  * Cette librairie existe parce que le SDK de DTrack n'existe qu'en C++ ainsi qu'OpenCV qui sera utilisé plus tard pour du traitement d'image.
  *
  * \section backend_sec Le Back-end
+ * \subsection dtrack_part DTrack
+ * \paragraph explication_dtrack Explication
+ * DTrack est utilisé en combinaison de la solution ART-Tracker.
+ * Si un Human est créé, il suffit de faire un update. En interne : DTrack fait un receive.
+ * Ensuite, on alloue le vector de BodyParts en récupérant le nombre de Body que DTrack nous donne. Un Body dans DTrack est une partie du corps, comme en motion capture.\\
+ * Après cela, les BodyPart sont push dans le vector.
+ *
+ * \subsection bodypart_backend BodyPart
+ * Cet objet représente une Body de DTrack pour nous : une position, une rotation et un ID.\\
+ * \paragraph explication_body Explication
+ * Cette classe BodyPart est utile pour les attributs rotation et position de façon transparente : en entrée : des matrices/vecteurs et en interne un vec3 et un quaternion.
+ * La particularité de DTrack est qu'il donne une matrice de rotation (3x3) mais les données sont rangées au format column-wise (comme en Fortran) de ce fait une petite conversion interne se fait. L'utilisation est transparente.
+ * Il est impossible d'utiliser un BodyPart en dehors de la library.
  *
  * \section inter_sec « Interfaçage » vers C#
  *

@@ -21,11 +21,11 @@ include_directories(./DTrack_src/include)
 include_directories(./json/single_include/nlohmann)
 include_directories(./catch2/single_include)
 
+set(LINKER_FLAGS
+		-Wl,--sort-common,--as-needed)
+
 # Partie Linux
 if (${CMAKE_HOST_UNIX})
-
-	set(LINKER_FLAGS
-			-Wl,--sort-common,--as-needed)
 
 	# Pour compilateur Intel.
 	if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
@@ -61,6 +61,8 @@ elseif (${CMAKE_HOST_WIN32}) # Partie pour Windows
 	# Compilateur Microsoft
 	if (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 		# Tu te débrouilles.
+		set(COMPILER_OPTIONS
+				PRIVATE /Wall)
 
 	elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 		set(COMPILER_OPTIONS
