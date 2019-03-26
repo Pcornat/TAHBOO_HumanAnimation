@@ -103,37 +103,37 @@ namespace human {
 		 * Mettre à jour les données dans DTrack.
 		 * \return
 		 */
-		static int32_t UNITY_INTERFACE_EXPORT update(human::Human *ptr) noexcept(false);
+		static UNITY_INTERFACE_EXPORT int32_t update(human::Human *ptr) noexcept(false);
 
 		/**
 		 * Création d'un objet Human.
 		 * \return
 		 */
-		static Human *UNITY_INTERFACE_EXPORT Human_create(const char *filename);
+		static UNITY_INTERFACE_EXPORT Human *Human_create(const char *filename);
 
 		/**
 		 * Destruction d'un objet Human.
 		 */
-		static void UNITY_INTERFACE_EXPORT Human_destroy(human::Human *ptr);
+		static UNITY_INTERFACE_EXPORT void Human_destroy(human::Human *ptr);
 
 		/**
 		 * Destruction de l'instance unique de DTrack.
 		 */
-		static void UNITY_INTERFACE_EXPORT DTrack_destroy();
+		static UNITY_INTERFACE_EXPORT void DTrack_destroy();
 
 		/**
 		 * Permet de connaître le nombre de BodyParts présent à partir du fichier JSON (allocation urile en C#).
 		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
 		 * \return Le nombre de BodyParts.
 		 */
-		static size_t UNITY_INTERFACE_EXPORT getNumBodyParts(const human::Human *ptr);
+		static UNITY_INTERFACE_EXPORT size_t getNumBodyParts(const human::Human *ptr);
 
 		/**
 		 * Ça fonctionne uniquement pour le nombre de partie que l'on a ainsi que la configuration présente (les IDs).
 		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
 		 * \return Les id des BodyParts
 		 */
-		static int *UNITY_INTERFACE_EXPORT getIds(const human::Human *ptr);
+		static UNITY_INTERFACE_EXPORT int *getIds(const human::Human *ptr);
 
 		/**
 		 * Obtenir la position d'un BodyPart.
@@ -141,7 +141,7 @@ namespace human {
 		 * \param id L'identifiant ART du BodyPart
 		 * \return Tableau de double contenant la position (x, y, z)
 		 */
-		static double *UNITY_INTERFACE_EXPORT getBodyPartPos(const human::Human *ptr, size_t id);
+		static UNITY_INTERFACE_EXPORT double *getBodyPartPos(const human::Human *ptr, size_t id);
 
 		/**
 		 * Obtenir le quaternion de rotation d'un BodyPart.
@@ -149,7 +149,7 @@ namespace human {
 		 * @param id L'identifiant ART du BodyPart
 		 * @return Tableau de double contenant le quaternion (x, y, z, w)
 		 */
-		static double *UNITY_INTERFACE_EXPORT getBodyPartQuat(const human::Human *ptr, size_t id);
+		static UNITY_INTERFACE_EXPORT double *getBodyPartQuat(const human::Human *ptr, size_t id);
 
 		/**
 		 * Utile seulement pour les tests unitaires. Inutilisables en C#
