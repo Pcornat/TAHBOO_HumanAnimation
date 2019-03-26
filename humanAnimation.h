@@ -135,6 +135,7 @@ namespace human {
 		 */
 		static UNITY_INTERFACE_EXPORT int *getIds(const human::Human *ptr);
 
+
 		/**
 		 * Obtenir la position d'un BodyPart.
 		 * \param ptr L'être humain dont on veut obtenir les données.
@@ -143,6 +144,7 @@ namespace human {
 		 */
 		static UNITY_INTERFACE_EXPORT double *getBodyPartPos(const human::Human *ptr, size_t id);
 
+
 		/**
 		 * Obtenir le quaternion de rotation d'un BodyPart.
 		 * @param ptr L'être humain dont on veut obtenir les données.
@@ -150,6 +152,7 @@ namespace human {
 		 * @return Tableau de double contenant le quaternion (x, y, z, w)
 		 */
 		static UNITY_INTERFACE_EXPORT double *getBodyPartQuat(const human::Human *ptr, size_t id);
+
 
 		/**
 		 * Utile seulement pour les tests unitaires. Inutilisables en C#

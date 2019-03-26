@@ -1,0 +1,1 @@
+cmake -DCMAKE_GENERATOR_PLATFORM=x64 -G "Visual Studio 15 2017" -A x64

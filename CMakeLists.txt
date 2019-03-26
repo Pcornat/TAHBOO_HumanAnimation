@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+﻿cmake_minimum_required(VERSION 3.10)
 project(humanAnimation)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -114,14 +114,12 @@ if (${CMAKE_HOST_UNIX})
 
 elseif (${CMAKE_HOST_WIN32})
 
-	target_compile_options(humanAnimation ${COMPILER_OPTIONS} /openmp)
-	target_link_libraries(humanAnimation ${LINKER_FLAGS} /openmp ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
+	target_link_libraries(humanAnimation ${LINKER_FLAGS} nlohmann_json::nlohmann_json)
 
 endif ()
 
 add_executable(humanAnimationTests ${TESTS_FILES})
 add_dependencies(humanAnimationTests humanAnimation)
-target_compile_options(humanAnimationTests ${COMPILER_OPTIONS})
 
 if (${CMAKE_HOST_UNIX})
 
