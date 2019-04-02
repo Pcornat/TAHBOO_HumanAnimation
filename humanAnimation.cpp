@@ -57,7 +57,7 @@ human::Human &human::Human::operator=(human::Human &&h) noexcept {
 }
 
 void human::Human::setNumBodyParts(size_t num) {
-	this->bodyParts.resize(num);
+	this->bodyParts.reserve(num);
 }
 
 void human::Human::pushBodyParts(const DTrack_Body_Type_d *body) {
@@ -68,7 +68,7 @@ void human::Human::pushBodyParts(const DTrack_Body_Type_d *body) {
 	bodyPart.setPosition(body->loc);
 }
 
-const std::vector<human::BodyParts> &human::Human::getBodyParts() const {
+const std::unordered_map<size_t, human::BodyParts> &human::Human::getBodyParts() const {
 	return bodyParts;
 }
 

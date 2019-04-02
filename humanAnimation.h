@@ -36,7 +36,7 @@
 #include "for_windows.h"
 
 
-#include <vector>
+#include <unordered_map>
 #include <memory>
 
 #include <json.hpp>
@@ -59,7 +59,7 @@ namespace human {
 	 */
 	class Human {
 	protected:
-		std::vector<BodyParts> bodyParts;
+		std::unordered_map<size_t, BodyParts> bodyParts;
 		std::string filename;
 
 		/// Unused for now
@@ -80,7 +80,7 @@ namespace human {
 
 		const std::string &getFilename() const;
 
-		const std::vector<BodyParts> &getBodyParts() const;
+		const std::unordered_map<size_t, BodyParts> & getBodyParts() const;
 
 		/**
 		 * \brief Permet de réserver à l'avance l'espace nécessaire pour le nombre de BodyParts dans le vector.
