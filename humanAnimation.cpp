@@ -177,3 +177,11 @@ size_t *getIds(const void *ptr) {
 
 	return ids;
 }
+
+void destroyDoubleArray(double *ptr) {
+	delete[] ptr;
+}
+
+void destroyIdsArray(size_t *ptr) {
+	delete[] ptr;
+}

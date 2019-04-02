@@ -173,6 +173,10 @@ UNITY_INTERFACE_EXPORT double *getBodyPartPos(const void *ptr, size_t id);
  */
 UNITY_INTERFACE_EXPORT double *getBodyPartQuat(const void *ptr, size_t id);
 
+UNITY_INTERFACE_EXPORT void destroyDoubleArray(double *ptr);
+
+UNITY_INTERFACE_EXPORT void destroyIdsArray(size_t *ptr);
+
 #ifdef __cplusplus
 }
 #endif
