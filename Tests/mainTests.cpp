@@ -27,13 +27,15 @@ TEST_CASE("Get ids test", "[getter][0]") {
 	REQUIRE_NOTHROW(ptr = getIds(&test));
 	//std::cout << ptr;
 	DTrack_destroy();
-	delete ptr;
+	delete[] ptr;
 }
 
 TEST_CASE("Get number of BodyParts", "[getter][1]") {
 	human::Human test("config.json");
-	int num = 0;
+	size_t num = 0/*, numEnter = 0*/;
 	REQUIRE_NOTHROW(num = human::Human::getNumBodyParts(&test));
+	//std::cout << "Combien de body y a-t-il ?" << std::endl;
+	//std::cin >> numEnter;
 	REQUIRE(num == 12);
 	DTrack_destroy();
 }

@@ -160,20 +160,21 @@ size_t *getIds(const void *ptr) {
 
 	auto &object = file.at("human_models").at(0/* here the humanID in the future*/);
 
-	ids = new size_t[object.size()];
+	ids = new size_t[object.size() + 1];
 
-	ids[0] = object.at("head").get<size_t>();
-	ids[1] = object.at("foot_l").get<size_t>();
-	ids[2] = object.at("foot_r").get<size_t>();
-	ids[3] = object.at("calf_r").get<size_t>();
-	ids[4] = object.at("hand_l").get<size_t>();
-	ids[5] = object.at("lowerarm_l").get<size_t>();
-	ids[6] = object.at("calf_l").get<size_t>();
-	ids[7] = object.at("lowerarm_r").get<size_t>();
-	ids[8] = object.at("clavicle_l").get<size_t>();
-	ids[9] = object.at("clavicle_r").get<size_t>();
-	ids[10] = object.at("hand_r").get<size_t>();
-	ids[11] = object.at("pelvis").get<size_t>();
+	ids[0] = object.size();
+	ids[1] = object.at("head").get<size_t>();
+	ids[2] = object.at("foot_l").get<size_t>();
+	ids[3] = object.at("foot_r").get<size_t>();
+	ids[4] = object.at("calf_r").get<size_t>();
+	ids[5] = object.at("hand_l").get<size_t>();
+	ids[6] = object.at("lowerarm_l").get<size_t>();
+	ids[7] = object.at("calf_l").get<size_t>();
+	ids[8] = object.at("lowerarm_r").get<size_t>();
+	ids[9] = object.at("clavicle_l").get<size_t>();
+	ids[10] = object.at("clavicle_r").get<size_t>();
+	ids[11] = object.at("hand_r").get<size_t>();
+	ids[12] = object.at("pelvis").get<size_t>();
 
 	return ids;
 }
