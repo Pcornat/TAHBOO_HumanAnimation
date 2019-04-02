@@ -153,7 +153,7 @@ UNITY_INTERFACE_EXPORT void DTrack_destroy();
  * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
  * \return Les id des BodyParts
  */
-UNITY_INTERFACE_EXPORT int *getIds(const void *ptr);
+UNITY_INTERFACE_EXPORT size_t *getIds(const void *ptr);
 
 
 /**
@@ -167,9 +167,9 @@ UNITY_INTERFACE_EXPORT double *getBodyPartPos(const void *ptr, size_t id);
 
 /**
  * Obtenir le quaternion de rotation d'un BodyPart.
- * @param ptr L'être humain dont on veut obtenir les données.
- * @param id L'identifiant ART du BodyPart
- * @return Tableau de double contenant le quaternion (x, y, z, w)
+ * \param ptr L'être humain dont on veut obtenir les données.
+ * \param id L'identifiant ART du BodyPart
+ * \return Tableau de double contenant le quaternion (x, y, z, w)
  */
 UNITY_INTERFACE_EXPORT double *getBodyPartQuat(const void *ptr, size_t id);
 

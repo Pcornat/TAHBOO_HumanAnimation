@@ -151,29 +151,29 @@ double *getBodyPartQuat(const void *ptr, size_t id) {
 	return rot;
 }
 
-int *getIds(const void *ptr) {
+size_t *getIds(const void *ptr) {
 	using json = nlohmann::json;
-	int *ids = nullptr;
+	size_t *ids = nullptr;
 	std::ifstream fileStr(static_cast<const human::Human *>(ptr)->getFilename());
 	json file = json::parse(fileStr);
 	fileStr.close();
 
 	auto &object = file.at("human_models").at(0/* here the humanID in the future*/);
 
-	ids = new int[object.size()];
+	ids = new size_t[object.size()];
 
-	ids[0] = object.at("head").get<int>();
-	ids[1] = object.at("foot_l").get<int>();
-	ids[2] = object.at("foot_r").get<int>();
-	ids[3] = object.at("calf_r").get<int>();
-	ids[4] = object.at("hand_l").get<int>();
-	ids[5] = object.at("lowerarm_l").get<int>();
-	ids[6] = object.at("calf_l").get<int>();
-	ids[7] = object.at("lowerarm_r").get<int>();
-	ids[8] = object.at("clavicle_l").get<int>();
-	ids[9] = object.at("clavicle_r").get<int>();
-	ids[10] = object.at("hand_r").get<int>();
-	ids[11] = object.at("pelvis").get<int>();
+	ids[0] = object.at("head").get<size_t>();
+	ids[1] = object.at("foot_l").get<size_t>();
+	ids[2] = object.at("foot_r").get<size_t>();
+	ids[3] = object.at("calf_r").get<size_t>();
+	ids[4] = object.at("hand_l").get<size_t>();
+	ids[5] = object.at("lowerarm_l").get<size_t>();
+	ids[6] = object.at("calf_l").get<size_t>();
+	ids[7] = object.at("lowerarm_r").get<size_t>();
+	ids[8] = object.at("clavicle_l").get<size_t>();
+	ids[9] = object.at("clavicle_r").get<size_t>();
+	ids[10] = object.at("hand_r").get<size_t>();
+	ids[11] = object.at("pelvis").get<size_t>();
 
 	return ids;
 }

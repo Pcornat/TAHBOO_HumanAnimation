@@ -22,9 +22,12 @@ TEST_CASE("Constructor and destructors test", "[constructor][0] Constructor test
 }
 
 TEST_CASE("Get ids test", "[getter][0]") {
-	int *ptr = nullptr;
+	int32_t *ptr = nullptr;
 	human::Human test("config.json");
 	REQUIRE_NOTHROW(ptr = getIds(&test));
+	for (size_t i = 0; i < 12; ++i) {
+		std::cout << ptr[i] << '\n';
+	}
 	//std::cout << ptr;
 	DTrack_destroy();
 	delete ptr;
