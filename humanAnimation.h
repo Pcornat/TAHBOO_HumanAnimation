@@ -14,7 +14,6 @@
  *
  * \section backend_sec Le Back-end
  * \subsection dtrack_part DTrack
- * \paragraph explication_dtrack Explication
  * DTrack est utilisé en combinaison de la solution ART-Tracker.
  * Si un Human est créé, il suffit de faire un update. En interne : DTrack fait un receive.
  * Ensuite, on alloue le vector de BodyParts en récupérant le nombre de Body que DTrack nous donne. Un Body dans DTrack est une partie du corps, comme en motion capture.\\
@@ -79,6 +78,8 @@ namespace human {
 
 		virtual ~Human() noexcept = default;
 
+		const std::string &getFilename() const;
+
 		const std::vector<BodyParts> &getBodyParts() const;
 
 		/**
@@ -100,69 +101,80 @@ namespace human {
 		Human &operator=(const Human &h) = delete;
 
 		/**
-		 * Mettre à jour les données dans DTrack.
-		 * \return
-		 */
-		static UNITY_INTERFACE_EXPORT int32_t update(human::Human *ptr) noexcept(false);
-
-		/**
-		 * Création d'un objet Human.
-		 * \return
-		 */
-		static UNITY_INTERFACE_EXPORT Human *Human_create(const char *filename);
-
-		/**
-		 * Destruction d'un objet Human.
-		 */
-		static UNITY_INTERFACE_EXPORT void Human_destroy(human::Human *ptr);
-
-		/**
-		 * Destruction de l'instance unique de DTrack.
-		 */
-		static UNITY_INTERFACE_EXPORT void DTrack_destroy();
-
-		/**
-		 * Permet de connaître le nombre de BodyParts présent à partir du fichier JSON (allocation urile en C#).
-		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
-		 * \return Le nombre de BodyParts.
-		 */
-		static UNITY_INTERFACE_EXPORT size_t getNumBodyParts(const human::Human *ptr);
-
-		/**
-		 * Ça fonctionne uniquement pour le nombre de partie que l'on a ainsi que la configuration présente (les IDs).
-		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
-		 * \return Les id des BodyParts
-		 */
-		static UNITY_INTERFACE_EXPORT int *getIds(const human::Human *ptr);
-
-
-		/**
-		 * Obtenir la position d'un BodyPart.
-		 * \param ptr L'être humain dont on veut obtenir les données.
-		 * \param id L'identifiant ART du BodyPart
-		 * \return Tableau de double contenant la position (x, y, z)
-		 */
-		static UNITY_INTERFACE_EXPORT double *getBodyPartPos(const human::Human *ptr, size_t id);
-
-
-		/**
-		 * Obtenir le quaternion de rotation d'un BodyPart.
-		 * @param ptr L'être humain dont on veut obtenir les données.
-		 * @param id L'identifiant ART du BodyPart
-		 * @return Tableau de double contenant le quaternion (x, y, z, w)
-		 */
-		static UNITY_INTERFACE_EXPORT double *getBodyPartQuat(const human::Human *ptr, size_t id);
-
-
-		/**
 		 * Utile seulement pour les tests unitaires. Inutilisables en C#
 		 * \param ptr
 		 * \return
 		 */
-		static const std::unique_ptr<DTrackSDK> &getDTrack(human::Human *ptr);
+		static const std::unique_ptr<DTrackSDK> &getDTrack();
+
+		/**
+		 * Fonction de test uniquement.
+		 *
+		 * Permet de connaître le nombre de BodyParts présent à partir du fichier JSON.
+		 * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
+		 * \return Le nombre de BodyParts.
+		 */
+		static size_t getNumBodyParts(const human::Human *ptr);
+
+		static void destroyDtrack();
 
 	};
 
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+/**
+ * Mettre à jour les données dans DTrack.
+ * \return
+ */
+UNITY_INTERFACE_EXPORT int32_t update(void *ptr);
+
+/**
+ * Création d'un objet Human.
+ * \return
+ */
+UNITY_INTERFACE_EXPORT void *Human_create(const char *filename);
+
+/**
+ * Destruction d'un objet Human.
+ */
+UNITY_INTERFACE_EXPORT void Human_destroy(void *ptr);
+
+/**
+ * Destruction de l'instance unique de DTrack.
+ */
+UNITY_INTERFACE_EXPORT void DTrack_destroy();
+
+
+/**
+ * Ça fonctionne uniquement pour le nombre de partie que l'on a ainsi que la configuration présente (les IDs).
+ * \param ptr L'objet Human dont on veut connaître le nombre de BodyParts
+ * \return Les id des BodyParts
+ */
+UNITY_INTERFACE_EXPORT int *getIds(const void *ptr);
+
+
+/**
+ * Obtenir la position d'un BodyPart.
+ * \param ptr L'être humain dont on veut obtenir les données.
+ * \param id L'identifiant ART du BodyPart
+ * \return Tableau de double contenant la position (x, y, z)
+ */
+UNITY_INTERFACE_EXPORT double *getBodyPartPos(const void *ptr, size_t id);
+
+
+/**
+ * Obtenir le quaternion de rotation d'un BodyPart.
+ * @param ptr L'être humain dont on veut obtenir les données.
+ * @param id L'identifiant ART du BodyPart
+ * @return Tableau de double contenant le quaternion (x, y, z, w)
+ */
+UNITY_INTERFACE_EXPORT double *getBodyPartQuat(const void *ptr, size_t id);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

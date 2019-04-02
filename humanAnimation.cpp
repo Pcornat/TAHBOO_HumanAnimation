@@ -42,6 +42,10 @@ human::Human::Human(const std::string &filename) noexcept(false) {
 	this->filename = std::move(filename);
 }
 
+const std::string &human::Human::getFilename() const {
+	return filename;
+}
+
 human::Human &human::Human::operator=(human::Human &&h) noexcept {
 
 	if (&h != this) {
@@ -68,23 +72,43 @@ const std::vector<human::BodyParts> &human::Human::getBodyParts() const {
 	return bodyParts;
 }
 
-human::Human *human::Human::Human_create(const char *filename) {
-	auto *ptr = new Human(std::string(filename));
+const std::unique_ptr<DTrackSDK> &human::Human::getDTrack() {
+	return human::Human::dtrack;
+}
+
+size_t human::Human::getNumBodyParts(const human::Human *ptr) {
+	using json = nlohmann::json;
+	std::ifstream fileStr(ptr->filename);
+
+	json file = json::parse(fileStr);
+	fileStr.close();
+
+	return file.at("human_models").at(0).size();
+}
+
+void human::Human::destroyDtrack() {
+	human::Human::dtrack.reset(nullptr);
+	human::Human::dtrackCreated = false;
+}
+
+void *Human_create(const char *filename) {
+	auto *ptr = new human::Human(std::string(filename));
 
 	return ptr;
 }
 
-void human::Human::Human_destroy(human::Human *ptr) {
-	delete ptr;
+void Human_destroy(void *ptr) {
+	auto *toDelete = static_cast<human::Human *>(ptr);
+	delete toDelete;
 }
 
-void human::Human::DTrack_destroy() {
-	human::Human::dtrack.reset(nullptr);
+void DTrack_destroy() {
+	human::Human::destroyDtrack();
 }
 
-int32_t human::Human::update(human::Human *ptr) noexcept(false) {
-	human::Human &ref = *ptr;
-	auto &dtrack = human::Human::dtrack;
+int32_t update(void *ptr) {
+	human::Human &ref = *static_cast<human::Human *>(ptr);
+	auto &dtrack = human::Human::getDTrack();
 
 	if (dtrack->receive()) {
 		ref.setNumBodyParts(static_cast<size_t>(dtrack->getNumBody()));
@@ -104,9 +128,9 @@ int32_t human::Human::update(human::Human *ptr) noexcept(false) {
 
 }
 
-double *human::Human::getBodyPartPos(const human::Human *ptr, size_t id) {
+double *getBodyPartPos(const void *ptr, size_t id) {
 	auto *pos = new double[3];
-	auto &vecRef = ptr->getBodyParts().at(id).getPosition();
+	auto &vecRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getPosition();
 
 	pos[0] = vecRef.x;
 	pos[1] = vecRef.y;
@@ -115,9 +139,9 @@ double *human::Human::getBodyPartPos(const human::Human *ptr, size_t id) {
 	return pos;
 }
 
-double *human::Human::getBodyPartQuat(const human::Human *ptr, size_t id) {
+double *getBodyPartQuat(const void *ptr, size_t id) {
 	auto *rot = new double[4];
-	auto &quatRef = ptr->getBodyParts().at(id).getRotation();
+	auto &quatRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getRotation();
 
 	rot[0] = quatRef.x;
 	rot[1] = quatRef.y;
@@ -127,20 +151,10 @@ double *human::Human::getBodyPartQuat(const human::Human *ptr, size_t id) {
 	return rot;
 }
 
-size_t human::Human::getNumBodyParts(const human::Human *ptr) {
-	using json = nlohmann::json;
-	std::ifstream fileStr(ptr->filename);
-
-	json file = json::parse(fileStr);
-	fileStr.close();
-
-	return file.at("human_models").at(0).size();
-}
-
-int *human::Human::getIds(const human::Human *ptr) {
+int *getIds(const void *ptr) {
 	using json = nlohmann::json;
 	int *ids = nullptr;
-	std::ifstream fileStr(ptr->filename);
+	std::ifstream fileStr(static_cast<const human::Human *>(ptr)->getFilename());
 	json file = json::parse(fileStr);
 	fileStr.close();
 
@@ -162,8 +176,4 @@ int *human::Human::getIds(const human::Human *ptr) {
 	ids[11] = object.at("pelvis").get<int>();
 
 	return ids;
-}
-
-const std::unique_ptr<DTrackSDK> &human::Human::getDTrack(human::Human *ptr) {
-	return ptr->dtrack;
 }

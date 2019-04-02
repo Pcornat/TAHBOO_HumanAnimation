@@ -7,26 +7,26 @@ TEST_CASE("Constructor and destructors test", "[constructor][0] Constructor test
 	REQUIRE_THROWS_WITH(human::Human("conf.json"), "File does not exist.");
 	REQUIRE_NOTHROW(human::Human("config.json"));
 
-	auto *h = human::Human::Human_create("config.json");
-	auto *test = human::Human::Human_create("config.json");
-	REQUIRE(human::Human::getDTrack(h) != nullptr);
-	REQUIRE(human::Human::getDTrack(test) != nullptr);
-	REQUIRE(human::Human::getDTrack(test) == human::Human::getDTrack(h));
+	auto *h = Human_create("config.json");
+	auto *test = Human_create("config.json");
+	REQUIRE(human::Human::getDTrack() != nullptr);
+	REQUIRE(human::Human::getDTrack() != nullptr);
+	REQUIRE(human::Human::getDTrack() == human::Human::getDTrack());
 
-	REQUIRE_NOTHROW(human::Human::Human_destroy(h));
-	REQUIRE_NOTHROW(human::Human::Human_destroy(test));
-	REQUIRE(human::Human::getDTrack(nullptr) != nullptr);
+	REQUIRE_NOTHROW(Human_destroy(h));
+	REQUIRE_NOTHROW(Human_destroy(test));
+	REQUIRE(human::Human::getDTrack() != nullptr);
 
-	REQUIRE_NOTHROW(human::Human::DTrack_destroy());
-	REQUIRE(human::Human::getDTrack(nullptr) == nullptr);
+	REQUIRE_NOTHROW(DTrack_destroy());
+	REQUIRE(human::Human::getDTrack() == nullptr);
 }
 
 TEST_CASE("Get ids test", "[getter][0]") {
 	int *ptr = nullptr;
 	human::Human test("config.json");
-	REQUIRE_NOTHROW(ptr = human::Human::getIds(&test));
+	REQUIRE_NOTHROW(ptr = getIds(&test));
 	//std::cout << ptr;
-	human::Human::DTrack_destroy();
+	DTrack_destroy();
 	delete ptr;
 }
 
@@ -35,5 +35,5 @@ TEST_CASE("Get number of BodyParts", "[getter][1]") {
 	int num = 0;
 	REQUIRE_NOTHROW(num = human::Human::getNumBodyParts(&test));
 	REQUIRE(num == 12);
-	human::Human::DTrack_destroy();
+	DTrack_destroy();
 }
