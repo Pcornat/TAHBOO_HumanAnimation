@@ -82,18 +82,6 @@ namespace human {
 
 		const std::unordered_map<size_t, BodyParts> & getBodyParts() const;
 
-		/**
-		 * \brief Permet de réserver à l'avance l'espace nécessaire pour le nombre de BodyParts dans le vector.
-		 * Cela permet d'éviter un surplus d'allocations dynamiques (temps système consommé) mais aussi d'avoir un espace alloué trop grand
-		 * (l'allocation progressive se fait de façon exponnentielle).
-		 * \param num Le nombre de Bodypart nécessaire à allouer.
-		 */
-		void setNumBodyParts(size_t num);
-
-		/**
-		 *
-		 * \param body
-		 */
 		void pushBodyParts(const DTrack_Body_Type_d *body);
 
 		Human &operator=(Human &&h) noexcept;

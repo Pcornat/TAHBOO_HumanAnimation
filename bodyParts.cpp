@@ -36,3 +36,13 @@ int32_t human::BodyParts::getId() const {
 void human::BodyParts::setId(int32_t id) {
 	BodyParts::id = id;
 }
+
+#ifndef NDEBUG
+std::ostream &human::operator<<(std::ostream &os, const human::BodyParts &parts) {
+	os << "name: " << parts.name << "\nposition: " << parts.position.x << ' ' << parts.position.y << ' ' << parts.position.z << "\nrotation: " << parts.rotation.x
+	<< ' ' << parts.rotation.y << ' ' << parts.rotation.z << ' ' << parts.rotation.w << "\nid: " << parts.id;
+	return os;
+}
+#endif
+
+human::BodyParts::BodyParts(size_t id) : id(id) {}

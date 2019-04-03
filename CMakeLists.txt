@@ -38,6 +38,7 @@ if (${CMAKE_HOST_UNIX})
 				-xHost)
 
 		set(CMAKE_CXX_FLAGS_RELEASE "-Ofast -DNDEBUG")
+		set(CMAKE_CXX_FLAGS_DEBUG "-g3")
 
 		set(LINKER_FLAGS
 				${LINKER_FLAGS}

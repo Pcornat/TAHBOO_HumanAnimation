@@ -1,6 +1,9 @@
 #include <catch2/catch.hpp>
 #include <humanAnimation.h>
+
+#ifndef NDEBUG
 #include <iostream>
+#endif
 
 TEST_CASE("Constructor and destructors test", "[constructor][0] Constructor test") {
 	REQUIRE_THROWS_WITH(human::Human("config"), "No file extension found or wrong extension");
@@ -25,7 +28,6 @@ TEST_CASE("Get ids test", "[getter][0]") {
 	size_t *ptr = nullptr;
 	human::Human test("config.json");
 	REQUIRE_NOTHROW(ptr = getIds(&test));
-	//std::cout << ptr;
 	DTrack_destroy();
 	delete[] ptr;
 }
@@ -34,8 +36,22 @@ TEST_CASE("Get number of BodyParts", "[getter][1]") {
 	human::Human test("config.json");
 	size_t num = 0/*, numEnter = 0*/;
 	REQUIRE_NOTHROW(num = human::Human::getNumBodyParts(&test));
-	//std::cout << "Combien de body y a-t-il ?" << std::endl;
-	//std::cin >> numEnter;
 	REQUIRE(num == 12);
 	DTrack_destroy();
+}
+
+TEST_CASE("DTrack test", "[dtrack][0]") {
+	void *ptr = Human_create("config.json");
+	auto *hPtr = static_cast<human::Human *>(ptr);
+	int32_t id = 0;
+	while (update(ptr) == EXIT_FAILURE);
+
+#ifndef NDEBUG
+	for (auto &bodyPart : hPtr->getBodyParts()) {
+		std::cout << "key : " << bodyPart.first << '\n' << "BodyPart : " << bodyPart.second << std::endl;
+	}
+#endif
+
+	REQUIRE_NOTHROW(id = hPtr->getBodyParts().at(3).getId());
+	REQUIRE(id == 3);
 }

@@ -29,6 +29,10 @@ human::Human::Human(const std::string &filename) noexcept(false) {
 	json config = json::parse(file);
 	file.close();
 
+	for (const auto &truc : config["human_models"].at(0)) {
+		this->bodyParts[truc.get<size_t>()] = BodyParts(truc.get<size_t>());
+	}
+
 #pragma omp critical
 	{
 		if (!human::Human::dtrackCreated) {
@@ -36,10 +40,13 @@ human::Human::Human(const std::string &filename) noexcept(false) {
 			human::Human::dtrack = std::make_unique<DTrackSDK>(config["dtrack"]["port"].get<int>());
 #ifndef NDEBUG
 			std::cout << config["dtrack"]["port"].get<int>() << std::endl;
+			for (const auto &part : bodyParts) {
+				std::cout << "id : " << part.first << std::endl;
+			}
 #endif
 		}
 	}
-	this->filename = std::move(filename);
+	this->filename = filename;
 }
 
 const std::string &human::Human::getFilename() const {
@@ -56,14 +63,10 @@ human::Human &human::Human::operator=(human::Human &&h) noexcept {
 	return *this;
 }
 
-void human::Human::setNumBodyParts(size_t num) {
-	this->bodyParts.reserve(num);
-}
-
 void human::Human::pushBodyParts(const DTrack_Body_Type_d *body) {
-	auto &bodyPart = this->bodyParts.at(static_cast<size_t >(body->id));
+	auto &bodyPart = this->bodyParts.at(static_cast<size_t >(body->id + 1));
 
-	bodyPart.setId(body->id);
+	//bodyPart.setId(body->id);
 	bodyPart.setRotation(body->rot);
 	bodyPart.setPosition(body->loc);
 }
@@ -111,9 +114,8 @@ int32_t update(void *ptr) {
 	auto &dtrack = human::Human::getDTrack();
 
 	if (dtrack->receive()) {
-		ref.setNumBodyParts(static_cast<size_t>(dtrack->getNumBody()));
-		for (int32_t i = 0; i < dtrack->getNumBody(); ++i) {
-			auto bodyPtr = dtrack->getBody(i);
+		for (const auto &bodyPart : ref.getBodyParts()) {
+			auto bodyPtr = dtrack->getBody(bodyPart.first - 1);
 			if (bodyPtr == nullptr)
 				throw std::out_of_range("nullptr access");
 
@@ -130,7 +132,7 @@ int32_t update(void *ptr) {
 
 double *getBodyPartPos(const void *ptr, size_t id) {
 	auto *pos = new double[3];
-	auto &vecRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getPosition();
+	const glm::dvec3 &vecRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getPosition();
 
 	pos[0] = vecRef.x;
 	pos[1] = vecRef.y;
@@ -141,7 +143,7 @@ double *getBodyPartPos(const void *ptr, size_t id) {
 
 double *getBodyPartQuat(const void *ptr, size_t id) {
 	auto *rot = new double[4];
-	auto &quatRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getRotation();
+	const glm::dquat &quatRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getRotation();
 
 	rot[0] = quatRef.x;
 	rot[1] = quatRef.y;

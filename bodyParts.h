@@ -10,6 +10,10 @@
 #include <string>
 #include <glm/ext/quaternion_double.hpp>
 
+#ifndef NDEBUG
+#include <ostream>
+#endif
+
 
 namespace human {
 
@@ -30,9 +34,13 @@ namespace human {
 		glm::dquat rotation;
 
 		///ART ID of the body part.
-		int32_t id;
+		size_t id;
 
 	public:
+		BodyParts() = default;
+
+		explicit BodyParts(size_t id);
+
 		const std::string &getName() const;
 
 		const glm::dquat &getRotation() const;
@@ -60,6 +68,10 @@ namespace human {
 		 * \param rotation rotation matrix in a one-dimensional array
 		 */
 		void setRotation(const double (&rotation)[9]);
+
+#ifndef NDEBUG
+		friend std::ostream &operator<<(std::ostream &os, const BodyParts &parts);
+#endif
 	};
 
 }
