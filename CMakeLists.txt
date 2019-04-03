@@ -128,6 +128,6 @@ if (${CMAKE_HOST_UNIX})
 
 elseif (${CMAKE_HOST_WIN32})
 
-	target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/libhumanAnimation.dll)
+	target_link_libraries(humanAnimationTests ${LINKER_FLAGS} Catch2::Catch2 ${PROJECT_BINARY_DIR}/Debug/humanAnimation.dll)
 
 endif ()

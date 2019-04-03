@@ -132,23 +132,27 @@ int32_t update(void *ptr) {
 
 double *getBodyPartPos(const void *ptr, size_t id) {
 	auto *pos = new double[3];
-	const glm::dvec3 &vecRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getPosition();
+	const human::Human* ptrhuman = (const human::Human *)(ptr);
+	const glm::dvec3 &vecRef =ptrhuman->getBodyParts().at(id).getPosition();
 
 	pos[0] = vecRef.x;
 	pos[1] = vecRef.y;
 	pos[2] = vecRef.z;
+
 
 	return pos;
 }
 
 double *getBodyPartQuat(const void *ptr, size_t id) {
 	auto *rot = new double[4];
-	const glm::dquat &quatRef = static_cast<const human::Human *>(ptr)->getBodyParts().at(id).getRotation();
+	const human::Human* ptrhuman = static_cast<const human::Human *>(ptr);
+	const glm::dquat &quatRef =ptrhuman->getBodyParts().at(id).getRotation();
 
 	rot[0] = quatRef.x;
 	rot[1] = quatRef.y;
 	rot[2] = quatRef.z;
 	rot[3] = quatRef.w;
+
 
 	return rot;
 }
