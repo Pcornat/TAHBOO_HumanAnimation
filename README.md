@@ -1,4 +1,4 @@
-# [TAHBOO](https://github.com/Zicrom08/Tahboo) submodule
+# [TAHBOO](https://github.com/Pcornat/TAHBOO_Unity) submodule
 
 ## WARNING
 In this project we use the ART Tracker system, the humand tracking system. So, as we use this system, we have to use the DTrackSDK software. Thank you for your understanding.
